@@ -9,6 +9,7 @@ export interface LogProps {
 
 export type UserEvent =
 	| 0    // Login
+	| 1    // RefreshToken
 	| 100  // EnterClass
 	| 101  // LeaveClass
 	| 102; // CheckClass

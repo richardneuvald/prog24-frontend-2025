@@ -1,2 +1,6 @@
 @import "tailwindcss";
 @plugin "daisyui";
+
+.badge-orange {
+	background-color: #ff9800;
+}
