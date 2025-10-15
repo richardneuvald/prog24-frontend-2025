@@ -53,6 +53,17 @@ export default function Logs() {
 		}
 	}
 
+	const roleLetter = (role: number) => {
+		switch (role) {
+			case 0:
+				return "S"
+			case 1:
+				return "T"
+			case 2:
+				return "A"
+		}
+	}
+
 	// Szűrés keresés alapján
 	const filteredLogs = logs.filter((log) => {
 		const query = searchQuery.toLowerCase()
@@ -158,9 +169,9 @@ export default function Logs() {
 											<td>
 												<div className="flex items-center gap-3">
 													<div className="avatar placeholder">
-														<div className="bg-primary text-primary-content rounded-full w-10">
+														<div className="bg-primary text-primary-content rounded-full w-10 text-center white">
 															<span className="text-xs">
-																{log.neptunCode.substring(0, 2)}
+																{roleLetter(log.userRole)}
 															</span>
 														</div>
 													</div>

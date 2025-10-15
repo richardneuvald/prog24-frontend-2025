@@ -19,3 +19,16 @@ export interface LessonProps {
 	id: string,
 	teacherName: string
 }
+
+export interface AddStudentToLessonProps {
+	studentId: string,
+	oraId: string
+}
+
+
+export interface UserData {
+	neptunCode: string,
+	realName: string,
+	role: 0,
+	id: string
+}

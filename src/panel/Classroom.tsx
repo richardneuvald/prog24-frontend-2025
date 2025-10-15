@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react"
-import { Search, Clock, Calendar, BookOpen, ChevronDown } from "lucide-react"
+import { Search, Clock, Calendar, BookOpen, ChevronDown, User, Trash2 } from "lucide-react"
 import type { ClassroomProps, LessonProps } from "../types/Classroom"
-import { GetClassrooms, GetLessons } from "../services/ClassroomService"
+import { DeleteLesson, GetClassrooms, GetLessons } from "../services/ClassroomService"
 import AddExam from "./operation/AddExam"
+import AddStudent from "./operation/AddStudent"
 
 export default function Classroom() {
 	const [search, setSearch] = useState<string>("")
@@ -111,7 +112,13 @@ export default function Classroom() {
 														key={j}
 														className="bg-secondary/10 p-4 rounded-lg border border-secondary/20 hover:border-secondary/40 transition-colors"
 													>
-														<div className="font-semibold text-base-content mb-2">{exam.name}</div>
+														<div className="flex flex-end">
+															<div className="font-semibold text-base-content mb-2">{exam.name}</div>
+															<div>
+																<button className="btn btn-info">Add User</button>
+																<button className="btn btn-danger">Delete Exam</button>
+															</div>
+														</div>
 														<div className="flex items-center gap-4 text-sm text-base-content/70">
 															<div className="flex items-center gap-1">
 																<Calendar className="w-4 h-4" />
@@ -157,19 +164,37 @@ export default function Classroom() {
 														key={j}
 														className="bg-secondary/10 p-4 rounded-lg border border-secondary/20 hover:border-secondary/40 transition-colors"
 													>
-														<div className="font-semibold text-base-content mb-2">{exam.name}</div>
-														<div className="flex items-center gap-4 text-sm text-base-content/70">
-															<div className="flex items-center gap-1">
-																<Calendar className="w-4 h-4" />
-																<span>{exam.startTime}</span>
+														<div className="flex items-start justify-between mb-4">
+															<h3 className="font-bold text-lg text-base-content group-hover:text-secondary transition-colors">
+																{exam.name}
+															</h3>
+															<div className="flex gap-2">
+																<AddStudent classroomId={exam.id} />
+																<button className="px-3 py-1.5 rounded-lg bg-error/20 text-error hover:bg-error hover:text-error-content transition-all flex items-center gap-1.5 text-sm font-semibold shadow-sm hover:shadow-md" onClick={() => DeleteLesson(exam.id)}>
+																	<Trash2 className="w-4 h-4" />
+																	Delete
+																</button>
 															</div>
-															<div className="flex items-center gap-1">
-																<Clock className="w-4 h-4" />
-																<span>{exam.endTime}</span>
+														</div>
+
+														{/* Info Section */}
+														<div className="flex items-center gap-6 text-sm text-base-content/70">
+															{/* Start Time */}
+															<div className="flex items-center gap-2 bg-base-200/50 px-3 py-2 rounded-lg">
+																<Calendar className="w-4 h-4 text-secondary" />
+																<span className="font-medium">{exam.startTime}</span>
 															</div>
 
-															<div>
-																{exam.teacherName}
+															{/* End Time */}
+															<div className="flex items-center gap-2 bg-base-200/50 px-3 py-2 rounded-lg">
+																<Clock className="w-4 h-4 text-secondary" />
+																<span className="font-medium">{exam.endTime}</span>
+															</div>
+
+															{/* Teacher */}
+															<div className="flex items-center gap-2 bg-primary/10 px-3 py-2 rounded-lg ml-auto">
+																<User className="w-4 h-4 text-primary" />
+																<span className="font-semibold text-base-content">{exam.teacherName}</span>
 															</div>
 														</div>
 													</div>

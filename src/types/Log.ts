@@ -5,6 +5,7 @@ export interface LogProps {
 	oraName: string,
 	classRoomName: string,
 	dateTime: string
+	userRole: number
 }
 
 export type UserEvent =
