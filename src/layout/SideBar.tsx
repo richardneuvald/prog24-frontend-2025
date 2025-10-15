@@ -6,7 +6,8 @@
 import { FaUser, FaSignOutAlt, FaBars, FaChevronLeft, FaBook, FaFilm } from "react-icons/fa"
 import { useEffect, useState } from "react"
 import type { IconType } from "react-icons"
-import { logout } from "../services/AuthenticationService"
+import { getJwtData, logout } from "../services/AuthenticationService"
+import type { JwtPayload } from "jwt-decode"
 // import { getJwtData } from "../services/AuthenticationService"
 // import type { JwtPayload } from "../types/JWT"
 
@@ -14,6 +15,7 @@ export function Sidebar() {
 	const [isOpen, setIsOpen] = useState(true)
 	const [isMobile, setIsMobile] = useState(false)
 	const [userData] = useState<{ role: number | undefined }>({ role: 2 })
+	const [userName, setUserName] = useState<JwtPayload | null>(null)
 
 	useEffect(() => {
 		const checkMobile = () => {
@@ -22,9 +24,11 @@ export function Sidebar() {
 			if (mobile) setIsOpen(false)
 		}
 
+		setUserName(getJwtData())
 		checkMobile()
 		window.addEventListener("resize", checkMobile)
 		return () => window.removeEventListener("resize", checkMobile)
+
 	}, [])
 
 	const toggleSidebar = () => setIsOpen(!isOpen)
@@ -76,13 +80,13 @@ export function Sidebar() {
 					<div className="flex items-center justify-between">
 						<div className="flex items-center">
 							<div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-lg font-bold shrink-0 overflow-hidden">
-								<img src="/path/to/user-image.jpg" alt="User" className="w-full h-full object-cover" />
+								<img src="https://pics.craiyon.com/2023-07-04/627a4100816b4689a411cc50ed118632.webp" alt="User" className="w-full h-full object-cover" />
 							</div>
 							<span
 								className={`font-semibold text-sm transition-all duration-300 whitespace-nowrap overflow-hidden ${isOpen ? "opacity-100 w-auto ml-2" : "opacity-0 w-0 m-0"
 									}`}
 							>
-								User Name
+								{userName?.name || "User"}
 							</span>
 						</div>
 

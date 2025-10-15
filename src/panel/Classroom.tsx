@@ -4,6 +4,7 @@ import type { ClassroomProps, LessonProps } from "../types/Classroom"
 import { DeleteLesson, GetClassrooms, GetLessons } from "../services/ClassroomService"
 import AddExam from "./operation/AddExam"
 import AddStudent from "./operation/AddStudent"
+import AddClassRoom from "./operation/AddClassroom"
 
 export default function Classroom() {
 	const [search, setSearch] = useState<string>("")
@@ -50,7 +51,7 @@ export default function Classroom() {
 						<p className="text-base-content/70">Manage rooms, schedules, and exams efficiently</p>
 					</div>
 					<div>
-						<button className="btn">Add Classroom</button>
+						<AddClassRoom />
 					</div>
 				</div>
 
@@ -159,7 +160,7 @@ export default function Classroom() {
 										</button>
 										{expandedRoom === `${room.name}-exams` && (
 											<div className="space-y-3 ml-7 animate-in fade-in slide-in-from-top-2 duration-300">
-												{lessons.filter(r => r.classRoomId == room.id).map((exam, j) => (
+												{lessons.filter(r => r.classRoomId == room.id && r.state == 0).map((exam, j) => (
 													<div
 														key={j}
 														className="bg-secondary/10 p-4 rounded-lg border border-secondary/20 hover:border-secondary/40 transition-colors"

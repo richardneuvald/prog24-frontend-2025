@@ -15,10 +15,13 @@ export interface LessonProps {
 	startTime: string,
 	endTime: string,
 	isExam: true,
+	state: number,
 	classRoomId: string,
 	id: string,
 	teacherName: string
 }
+
+export type stateType = "UPCOMING" | "ONGOING" | "COMPLETED"
 
 export interface AddStudentToLessonProps {
 	studentId: string,

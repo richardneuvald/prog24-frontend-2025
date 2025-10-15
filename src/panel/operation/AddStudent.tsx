@@ -2,25 +2,34 @@ import { useEffect, useState } from "react"
 import { UserPlus, Search, Users, Check } from "lucide-react"
 import Popup from "reactjs-popup"
 import type { AddStudentToLessonProps, UserData } from "../../types/Classroom"
-import { AddStudentToLesson, GetAllUsers } from "../../services/ClassroomService"
+import { AddStudentToLesson, GetAllUsers, GetSignedInUsers } from "../../services/ClassroomService"
 
 export default function AddStudent({ classroomId }: { classroomId: string }) {
 	const [allUsers, setAllUsers] = useState<UserData[]>([])
-	const [selectedUsers, setSelectedUsers] = useState<Set<string>>(new Set()) // ✅ store IDs
+	const [signedInUsers, setSignedInUsers] = useState<UserData[]>([])
+	const [selectedUsers, setSelectedUsers] = useState<Set<string>>(new Set())
 	const [searchTerm, setSearchTerm] = useState("")
 
 	useEffect(() => {
 		const fetchUsers = async () => {
 			const users = await GetAllUsers()
 			setAllUsers(users)
+
+			const signedIn = await GetSignedInUsers(classroomId)
+			setSignedInUsers(signedIn)
 		}
 		fetchUsers()
-	}, [])
+	}, [classroomId])
+
+	const signedInIds = new Set(signedInUsers.map((u) => u.id))
 
 	const filteredUsers = allUsers.filter(
 		(user) =>
-			user.realName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-			user.neptunCode?.toLowerCase().includes(searchTerm.toLowerCase())
+			!signedInIds.has(user.id) && // exclude signed-in
+			(
+				user.realName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+				user.neptunCode?.toLowerCase().includes(searchTerm.toLowerCase())
+			)
 	)
 
 	const toggleUser = (userId: string) => {
@@ -151,7 +160,9 @@ export default function AddStudent({ classroomId }: { classroomId: string }) {
 						<div className="text-center py-12">
 							<Users className="w-16 h-16 text-base-content/20 mx-auto mb-4" />
 							<p className="text-base-content/60">
-								{searchTerm ? "No users found" : "No users available"}
+								{searchTerm
+									? "No users found"
+									: "No available users to add"}
 							</p>
 						</div>
 					)}

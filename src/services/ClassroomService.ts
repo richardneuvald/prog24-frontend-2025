@@ -66,3 +66,23 @@ export const GetAllUsers = async (): Promise<UserData[]> => {
 			return []
 		})
 }
+
+
+export const GetSignedInUsers = async (oraId: string): Promise<UserData[]> => {
+	return await axios.get<UserData[]>(`${GetApi()}/teacher/lessons/students?oraId=${oraId}`, { headers: { "Content-Type": "application/json", Authorization: `Bearer ${localStorage.getItem("token")}` } })
+		.then(res => res.data)
+		.catch(err => {
+			console.error("GetSignedInUsersError", err)
+			return []
+		})
+}
+
+export const AddClassroom = async (name: string): Promise<void> => {
+	const token = localStorage.getItem("token")
+	await axios.post(`${GetApi()}/admin/classRoom?classRoomName=${name}`, { name }, { headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` } })
+		.then(() => { toastMessage("Classroom created successfully!", "success") })
+		.catch(err => {
+			toastMessage("Error occurred while creating classroom", "danger")
+			console.error("AddClassroomError", err)
+		})
+}

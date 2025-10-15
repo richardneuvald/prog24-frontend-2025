@@ -15,7 +15,7 @@ export default function App() {
 				<Route element={<Layout />}>
 					<Route path="/dashboard/classroom" element={<Classroom />} />
 					<Route path="/dashboard/logs" element={<Logs />} />
-					<Route path="/dashboard/user" element={<User />} />
+					<Route path="/dashboard/users" element={<User />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>
