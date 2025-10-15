@@ -106,7 +106,7 @@ export default function Classroom() {
 										</button>
 										{expandedRoom === `${room.name}-times` && (
 											<div className="space-y-2 ml-7 animate-in fade-in slide-in-from-top-2 duration-300">
-												{notExams.map((exam, j) => (
+												{notExams.filter(r => r.classRoomId == room.id).map((exam, j) => (
 													<div
 														key={j}
 														className="bg-secondary/10 p-4 rounded-lg border border-secondary/20 hover:border-secondary/40 transition-colors"
